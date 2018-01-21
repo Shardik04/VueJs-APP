@@ -1,4 +1,4 @@
-# vue-cli
+# Demo application for VueJs
 
 > A Vue.js project
 
