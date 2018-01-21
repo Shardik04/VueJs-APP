@@ -2,6 +2,8 @@
 
 > A Vue.js project
 
+Technology: VueJS, Vuex, Vue-router, Vue-cli ,HTML,CSS 
+
 ## Build Setup
 
 ``` bash
