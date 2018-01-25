@@ -1,7 +1,7 @@
 <template>
 	<div id="app" style="margin:10px;">
 		<div class="p10 bgwhite border-1">
-			<img src="http://www.afaqs.com/all/news/images/news_story_grfx/2017/51203_1_home_big.jpg" style="width:100px;height:50px;">
+			<img src="https://upload.wikimedia.org/wikipedia/commons/f/f1/Vue.png" style="width:100px;height:50px;">
 		</div>
 		<div class="border-1 p10">
 			<router-link to="/">Home</router-link>
