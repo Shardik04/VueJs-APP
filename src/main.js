@@ -1,28 +1,39 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
-import {routes} from './routes.js' 
-import store from './store/store'
 
-Vue.use(VueRouter);
+import {
+  createRouter
+} from './router/router.js'
 
-Vue.filter('time', (value) => {
-  let today = new Date();
-	let date_to_reply = new Date(value);
-	let timeinmilisec = today.getTime() - date_to_reply.getTime();
-	let t = Math.ceil(timeinmilisec / (1000 * 60 * 60 * 24));
-  return t + ' Days';
-});
+import {
+  createStore
+} from './store/store'
 
-const router = new VueRouter({
-	routes,
-	mode: 'history'
-});
+import {
+  sync
+} from 'vuex-router-sync'
 
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
+// export a factory function for creating fresh app, router and store
+// instances
+export function createApp() {
 
+  // create router instance
+  const router = createRouter();
+  const store = createStore()
+
+  // sync so that route state is available as part of the store
+  sync(store, router)
+
+  const app = new Vue({
+    el: '#app',
+    router,
+    store,
+    render: h => h(App)
+  })
+  return {
+    app,
+    router,
+    store
+  };
+}

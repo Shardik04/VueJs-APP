@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" data-server-rendered="true">
     <app-header></app-header>
     <router-view></router-view>
   </div>
@@ -20,4 +20,3 @@ export default {
   }
 }
 </script>
-

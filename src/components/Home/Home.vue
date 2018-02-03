@@ -1,15 +1,28 @@
 <template>
 	<div>
-		<h1>Games Developed for Different Platforms</h1>
-		<input type="search" placeholder="Seacrch for Games (By Names, Platform)" v-model="search" class="form-control" />
+		<h1>Browse top Kickstarter projects conveniently.</h1>
+		<input type="search" placeholder="Seacrch (By Names i.e title)" v-model="search" class="form-control" />
+		<div class="cf p10">
+			Search By Location :
+			<select v-model="selected" style="width:50%; padding:10px; margin:10px;">
+				<option value="">Choose...</option>
+				<option v-for="option in getCountry" :value="option.location">
+					{{ option.location }}
+				</option>
+			</select>
+			<div style="color:red;">Selected City: {{ selected }} </div>
+		</div>
+
+
 		<div v-for="game in filteredGames">
-			<div v-if="game.api_rate_limit"></div>
-			<div class="bglwhite border-1 m10 p4" v-else>
-				<div> Title : {{ game.title }}</div>
-				<div> Platform: {{ game.platform }} </div>
-				<div> Score: {{ game.score }} </div>
-				<div> Genre: {{ game.genre }} </div>
-				<div> Editors Choice: {{ game.editors_choice }} </div>
+			<div class="bglwhite border-1 m10 p4">
+				<a v-bind:href="'https://www.kickstarter.com' + game.url" target="_blank"> Title : {{ game.title }}</a>
+				<div> Details: {{ game.blurb }} </div>
+				<div> Amount Pledged: {{game | pledge}} </div>
+				<div> Location: {{ game.location }} || state: {{ game.state }} || Country: {{ game.country }} </div>
+				<div> Number of Backers: {{ game | backers }} </div>
+				<div> Created By: {{ game.by }} </div>
+				<div> Funded: {{ game | percent }} </div>
 			</div>
 		</div>
 	</div>
@@ -22,54 +35,77 @@
 	from 'vuex'
 
 	export default {
+		asyncData({
+			store,
+			router
+		}) {
+			// return the Promise from the action
+			console.log("asyncData");
+			return store.dispatch('SET_NEW_GAMES', router);
+		},
 		data() {
-				return {
-					search: ''
-				}
-			},
-			created() {
-				this.$store.dispatch('SET_NEW_GAMES')
-			},
-			computed: {
-				getGames() {
-						return this.$store.getters.newGames;
-					},
-					filteredGames() {
-						var vm = this;
-						return this.getGames.filter((item) => {
-							if (item.api_rate_limit) {
-								return;
-							}
-							return item.title.toLowerCase().indexOf(vm.search.toLowerCase()) > -1 || item.platform.toLowerCase().indexOf(vm.search.toLowerCase()) > -1;
-						});
-					}
+			return {
+				search: '',
+				country: [],
+				selected: ''
 			}
+		},
+		computed: {
+			getGames() {
+				return this.$store.getters.newGames;
+			},
+			filteredGames() {
+				var vm = this;
+				return this.getGames.filter((item) => {
+					return item.title.toLowerCase().indexOf(vm.search.toLowerCase()) > -1 &&
+						item.location.toLowerCase().indexOf(vm.selected.toLowerCase()) > -1;
+				});
+			},
+			getCountry() {
+				this.country = this.getGames.filter((item) => {
+					return item.location;
+				});
+				return this.country
+			}
+		},
+		filters: {
+			pledge: function(value) {
+				value = value["amt.pledged"];
+				return '$' + value;
+			},
+			backers: function(value) {
+				value = value["num.backers"];
+				return value;
+			},
+			percent: function(value) {
+				value = value["percentage.funded"];
+				return value + '%';
+			}
+		}
 	}
-
 </script>
 
 <style type="text/css" scoped>
 	.m10 {
 		margin: 10px;
 	}
-	
+
 	.p4 {
 		padding: 4px;
 	}
-	
+
 	.form-control {
 		height: 34px;
 		padding: 6px;
-		line-height: 1.42857143;
 		color: #555555;
 		background-color: #ffffff;
 		background-image: none;
 		border: 1px solid #d9d9d9;
 		margin: 10px;
+		width: 80%;
 	}
-	
+
 	.border-1 {
 		border: 1px solid #212121;
 	}
-
 </style>

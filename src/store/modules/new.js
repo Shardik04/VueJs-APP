@@ -1,40 +1,35 @@
 import Vue from 'vue';
-import VueResource from 'vue-resource';
+import axios from 'axios'
 
-Vue.use(VueResource);
+module.exports = {
+  state: {
+    newGames: []
+  },
+  mutations: {
+    'SET_NEW_GAMES' (state, payload) {
+      state.newGames = payload;
+    }
+  },
+  actions: {
+    'SET_NEW_GAMES': ({
+      commit
+    }) => {
 
-const state = {
-	newGames: []
-}
+      return axios.get(`http://starlord.hackerearth.com/kickstarter`)
+        .then((response) => {
+          if (response.statusText === 'OK') {
+            console.log(response);
+            commit('SET_NEW_GAMES', response.data)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
 
-const mutations = {
-	'SET_NEW_GAMES' (state, payload) {
-		state.newGames = payload;
-	}
-};
-
-
-const actions = {
-	'SET_NEW_GAMES': ({
-		commit
-	}) => {
-
-		Vue.http.get(`http://starlord.hackerearth.com/gamesarena`)
-			.then(response => {
-				commit('SET_NEW_GAMES', response.data);
-			});
-	}
-};
-
-const getters = {
-	newGames: state => {
-		return state.newGames;
-	}
-};
-
-export default {
-	state,
-	mutations,
-	getters,
-	actions
+    }
+  },
+  getters: {
+    newGames: state => {
+      return state.newGames;
+    }
+  }
 };
