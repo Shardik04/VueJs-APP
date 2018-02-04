@@ -4,15 +4,14 @@
 		<input type="search" placeholder="Seacrch (By Names i.e title)" v-model="search" class="form-control" />
 		<div class="cf p10">
 			Search By Location :
-			<select v-model="selected" style="width:50%; padding:10px; margin:10px;">
+			<select v-model="selected" class="select-box">
 				<option value="">Choose...</option>
 				<option v-for="option in getCountry" :value="option.location">
 					{{ option.location }}
 				</option>
 			</select>
-			<div style="color:red;">Selected City: {{ selected }} </div>
 		</div>
-
+		<div style="color:red;">Selected City: {{ selected }} </div>
 
 		<div v-for="game in filteredGames">
 			<div class="bglwhite border-1 m10 p4">
@@ -92,6 +91,12 @@
 
 	.p4 {
 		padding: 4px;
+	}
+
+	.select-box {
+		width: 50%;
+		padding: 10px;
+		margin: 10px;
 	}
 
 	.form-control {
