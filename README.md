@@ -1,8 +1,8 @@
-# Demo application for VueJs
+# Demo application for VueJs With Server Side Rendering
 
 > A Vue.js project
 
-Technology: VueJS, Vuex, Vue-router, Vue-cli ,HTML,CSS 
+Technology: VueJS, Vuex, vue-server-renderer, axios, Vue-cli ,HTML,CSS 
 
 ## Build Setup
 
@@ -11,10 +11,14 @@ Technology: VueJS, Vuex, Vue-router, Vue-cli ,HTML,CSS
 npm install
 
 # serve with hot reload at localhost:8080
-npm run dev
+npm start
 
 # build for production with minification
 npm run build
 ```
 
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
+## Credits
+The following resources were extremely helpful for configuring webpack and SSR:
+* https://ssr.vuejs.org/
+* https://github.com/vuejs/vue-hackernews-2.0
+* https://vuejsdevelopers.com/2017/12/11/vue-ssr-router/
