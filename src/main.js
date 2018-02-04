@@ -14,6 +14,25 @@ import {
   sync
 } from 'vuex-router-sync'
 
+Vue.mixin({
+  beforeMount() {
+    const {
+      asyncData
+    } = this.$options
+    if (asyncData) {
+      // assign the fetch operation to a promise
+      // so that in components we can do `this.dataPromise.then(...)` to
+      // perform other tasks after data is ready
+      console.log('fetch operation to a promise');
+      this.dataPromise = asyncData({
+        store: this.$store,
+        route: this.$route
+      })
+    }
+  }
+})
+
+
 // export a factory function for creating fresh app, router and store
 // instances
 export function createApp() {
