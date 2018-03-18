@@ -17,7 +17,7 @@ module.exports = {
 
       return axios.get(`http://starlord.hackerearth.com/kickstarter`)
         .then((response) => {
-          if (response.statusText === 'OK') {
+          if (response.status == 200) {
             console.log(response);
             commit('SET_NEW_GAMES', response.data)
           }
